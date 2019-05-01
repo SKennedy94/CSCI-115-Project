@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1551827958 source:c:\users\seamu\desktop\mazeviii\maze\test\main.cpp
+	<string>
+	<GLUT/glut.h>
+	<GL/glut.h>
+	<stdlib.h>
+
+1551824584 c:\users\seamu\desktop\mazeviii\maze\common\include\gl\glut.h
+	<windows.h>
+	<stdlib.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
