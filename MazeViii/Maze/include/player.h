@@ -41,6 +41,7 @@ class Player
         bool arrowStatus;                  // arrow is active or not
         bool livePlayer;                   // Player live or dead
         GridLoc wPos;                          // position in 2d array
+        GridLoc prevPos;
     protected:
 
         float t;                           // Ticker for animation

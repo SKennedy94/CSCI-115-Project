@@ -82,12 +82,14 @@ void init()
 }
 
 void checkCollisions(){
-//for(int i = 0; i < L->wallCount; i++){
-    cout<< L->P->wPos.x<<" , "<<L->P->wPos.y<<endl;
-    cout<< L->W[0].wallPos.x<<" , "<<L->W[0].wallPos.y <<endl;
-    //if(L->P.wPos.x == L->W[i].wallPos.x && L->P.wPos.y == L->W[i].wallPos.y){
-        //L->matrix[L->P.wPos.x][L->P.wPos.y] = 1;
-//    }
+    for (int i = 0; i < L->wallCount; i++){
+        if(L->P->wPos.x == L->W[i].wallPos.x && L->P->wPos.y == L->W[i].wallPos.y){
+            L->matrix[L->P->wPos.x][L->P->wPos.y] = 1;
+            L->matrix[L->P->prevPos.x][L->P->prevPos.y] = 4;
+            L->P->wPos = L->P->prevPos;
+            L->P->placePlayer(L->P->wPos.x, L->P->wPos.y);
+        }
+    }
 }
 
 void display(void)
@@ -127,14 +129,13 @@ void display(void)
            //L->M->drawArrows();
         glPopMatrix();
 
-        glPushMatrix();
+
         for(int i=0; i<(sizeof(L->E)/sizeof(Enemies));i++)
         {
-
+            glPushMatrix();
             L->E[i].drawEnemy();
-
+            glPopMatrix();
         }
-        glPopMatrix();
 
         for(int i=0; i<L->wallCount;i++)
         {
@@ -210,34 +211,9 @@ void key(unsigned char key, int x, int y)
     glutPostRedisplay();
 }
 
-
-/*void mouse(int btn, int state, int x, int y){
-
-    switch(btn){
-        case GLUT_LEFT_BUTTON:
-
-        if(state==GLUT_DOWN){
-
-              GetOGLPos(x,y);
-            }
-            break;
-
-
-      case GLUT_RIGHT_BUTTON:
-
-        if(state==GLUT_DOWN){
-
-              GetOGLPos(x,y);
-            }
-            break;
-    }
-     glutPostRedisplay();
-};
-*/
-
 void Specialkeys(int key, int x, int y)
 {
-
+    L->P->prevPos = L->P->wPos;
     // Your Code here
     switch(key)
     {
@@ -246,7 +222,6 @@ void Specialkeys(int key, int x, int y)
             //Move Enemy
              L->matrix[L->P->wPos.x][L->P->wPos.y] = 0;
              L->P->movePlayer("up");
-             L->P->wPos.y += 1;
              L->matrix[L->P->wPos.x][L->P->wPos.y] = 4;
         break;
 
@@ -254,7 +229,6 @@ void Specialkeys(int key, int x, int y)
 
              L->matrix[L->P->wPos.x][L->P->wPos.y] = 0;
              L->P->movePlayer("down");
-             L->P->wPos.y -= 1;
              L->matrix[L->P->wPos.x][L->P->wPos.y] = 4;
         break;
 
@@ -262,7 +236,6 @@ void Specialkeys(int key, int x, int y)
 
              L->matrix[L->P->wPos.x][L->P->wPos.y] = 0;
              L->P->movePlayer("left");
-             L->P->wPos.x -= 1;
              L->matrix[L->P->wPos.x][L->P->wPos.y] = 4;
 
         break;
@@ -271,7 +244,6 @@ void Specialkeys(int key, int x, int y)
 
              L->matrix[L->P->wPos.x][L->P->wPos.y] = 0;
              L->P->movePlayer("right");
-             L->P->wPos.x += 1;
              L->matrix[L->P->wPos.x][L->P->wPos.y] = 4;
         break;
 

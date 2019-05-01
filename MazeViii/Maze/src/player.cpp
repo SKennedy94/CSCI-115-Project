@@ -177,8 +177,8 @@ void Player::placePlayer(int x, int y)
 {
     plyLoc.x =  converter(x,y).x;
     plyLoc.y =  converter(x,y).y;
-    wPos.x = converter(x,y).x;
-    wPos.y = converter(x,y).y;
+    wPos.x = x;
+    wPos.y = y;
 }
 
 void Player::movePlayer(char* dir)
