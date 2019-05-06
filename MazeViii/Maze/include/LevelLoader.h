@@ -17,7 +17,8 @@ class LevelLoader
         Enemies E[20];
         wall W[400];                         // Set Maze grid size
         Player *P = new Player();
-        int matrix[20][20];
+
+        int matrix[25][25];
         void load(string);
         void reset();
 

@@ -81,7 +81,9 @@ void init()
     Title->bindTexture("images/Title.png");
 }
 
+// check Collisions can go into levelLoader Code
 void checkCollisions(){
+    //check player wall collisions
     for (int i = 0; i < L->wallCount; i++){
         if(L->P->wPos.x == L->W[i].wallPos.x && L->P->wPos.y == L->W[i].wallPos.y){
             L->matrix[L->P->wPos.x][L->P->wPos.y] = 1;
@@ -89,6 +91,18 @@ void checkCollisions(){
             L->P->wPos = L->P->prevPos;
             L->P->placePlayer(L->P->wPos.x, L->P->wPos.y);
         }
+    }
+    //check player chest collision
+    if (L->P->wPos.x == L->M->GetChestLoc().x && L->P->wPos.y == L->M->GetChestLoc().y){
+        // LEVEL SELECTOR AND VARIABLE TO KEEP TRACK
+        L->reset();
+        L->load("levels/level2.txt");
+    }
+}
+
+void moveEnemies(){
+    for(int i = 0; i < L->enemyCount; i++){
+        L->E[i].moveEnemy(L->matrix);
     }
 }
 
@@ -122,7 +136,7 @@ void display(void)
         glPopMatrix();
 
          glPushMatrix();
-           //L->M->drawChest();
+           L->M->drawChest();
         glPopMatrix();
 
         glPushMatrix();
@@ -149,9 +163,6 @@ void display(void)
     time_prev = time_now;
     }
 }
-
-
-
 
 void key(unsigned char key, int x, int y)
 {
@@ -219,21 +230,21 @@ void Specialkeys(int key, int x, int y)
     {
     if(gameState == GAME){
         case GLUT_KEY_UP:
-            //Move Enemy
+             moveEnemies();
              L->matrix[L->P->wPos.x][L->P->wPos.y] = 0;
              L->P->movePlayer("up");
              L->matrix[L->P->wPos.x][L->P->wPos.y] = 4;
         break;
 
         case GLUT_KEY_DOWN:
-
+             moveEnemies();
              L->matrix[L->P->wPos.x][L->P->wPos.y] = 0;
              L->P->movePlayer("down");
              L->matrix[L->P->wPos.x][L->P->wPos.y] = 4;
         break;
 
         case GLUT_KEY_LEFT:
-
+             moveEnemies();
              L->matrix[L->P->wPos.x][L->P->wPos.y] = 0;
              L->P->movePlayer("left");
              L->matrix[L->P->wPos.x][L->P->wPos.y] = 4;
@@ -241,7 +252,7 @@ void Specialkeys(int key, int x, int y)
         break;
 
         case GLUT_KEY_RIGHT:
-
+             moveEnemies();
              L->matrix[L->P->wPos.x][L->P->wPos.y] = 0;
              L->P->movePlayer("right");
              L->matrix[L->P->wPos.x][L->P->wPos.y] = 4;

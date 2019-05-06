@@ -162,7 +162,7 @@ void Maze::drawChest()
 
     glBindTexture(GL_TEXTURE_2D,chestTex);
     glScaled(1.0/(float)(gridSize+5),1.0/(float)(gridSize+5),1.0);
-    glRotated(spin,0,0,1);
+    //glRotated(spin,0,0,1);
 
     glBegin(GL_QUADS);
         glTexCoord2f(0,1);
@@ -177,8 +177,6 @@ void Maze::drawChest()
         glTexCoord2f(1,1);
         glVertex3f(-1,-1,0.0f);
      glEnd();
-
-     spin +=0.5;
     }
 }
 

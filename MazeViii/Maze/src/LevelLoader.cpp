@@ -31,6 +31,12 @@ void LevelLoader::load(string fileName){
                     cout<<"case eof"<<endl;
                 break;
             }
+            // 0 represents walkable area
+            // 1 represents walls
+            // 2 represents enemies
+            // 3 represents level objective
+            // 4 represents player
+            // 5 represents stealth area
             else if(index == '0'){
             }
             else if(index == '1'){
@@ -45,6 +51,11 @@ void LevelLoader::load(string fileName){
                 E[enemyCount].initEnm(M->getGridSize(),4,"images/e.png");
                 E[enemyCount].placeEnemy(i,j);
                 enemyCount++;
+            }
+            else if(index == '3'){
+                matrix[i][j]=0;
+                M->loadChestImage("images/chest.png");
+                M->placeChest(i,j);
             }
             else if(index == '4'){
                 matrix[i][j]=0;

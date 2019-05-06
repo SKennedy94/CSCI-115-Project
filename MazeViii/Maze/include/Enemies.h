@@ -12,6 +12,9 @@
 #include <string>
 #include <math.h>       /* ceil */
 
+enum State {WANDER,CHASE};
+enum Inter {UR,UL,DR,DL,URL,LUD,DRL,RUD,A,N};
+
 class Enemies
 {
     public:
@@ -21,9 +24,14 @@ class Enemies
 
         void placeEnemy(int,int);           // place enemy
         void drawEnemy();                   // Draw Enemy with Animation
-        void moveEnemy(string);             // move Enemy left,right,up,down
+        void moveEnemy(int [25][25]);             // move Enemy left,right,up,down
         void animate();                     // Animate sprite
         GridLoc getEnemyLoc();              // Return Enemy current grid location
+        int nextMove;                       // 0-3 {N,E,S,W} used to determine random movement
+        State eState;                       // logic state enemy is in
+        GridLoc ePos;                       // enemy position in array
+        GridLoc prevPos;
+        string dir = "right";
 
 
         int gridSize;                       // Grid size of the maze
@@ -41,6 +49,8 @@ class Enemies
          bool up,down,left,right;           // move direction
          float moveDis=0;                   // Moving distance for animation
          loc enmLoc;                        // location of the enemy
+         void Wander(int [25][25]);
+         Inter isIntersection(int [25][25]);
 };
 
 #endif // ENEMIES_H
