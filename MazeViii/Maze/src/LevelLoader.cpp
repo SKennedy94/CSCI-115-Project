@@ -48,7 +48,8 @@ void LevelLoader::load(string fileName){
             }
             else if(index == '2'){
                 matrix[i][j]=0;
-                E[enemyCount].initEnm(M->getGridSize(),4,"images/e.png");
+                E[enemyCount].initEnm(M->getGridSize(),7,"images/goblin.png");
+                E[enemyCount].live = true;
                 E[enemyCount].placeEnemy(i,j);
                 enemyCount++;
             }
@@ -61,6 +62,13 @@ void LevelLoader::load(string fileName){
                 matrix[i][j]=0;
                 P->initPlayer(M->getGridSize(),6,"images/p.png");
                 P->placePlayer(i,j);
+            }
+            else if(index == '5'){
+                matrix[i][j]=5;
+                B[bushCount].wallInit(M->getGridSize(),"images/bush.png");
+                B[bushCount].placeWall(i,j);
+                B[bushCount].liveWall = true;
+                bushCount++;
             }
             cout<<index<<" ";
             file >> index;
@@ -81,10 +89,13 @@ void LevelLoader::reset(){
         W[i].liveWall = false;
     }
     for(int i=0; i<enemyCount;i++){
+        E[i].ePos.x = 0;
+        E[i].ePos.y = 0;
         E[i].live = false;
     }
 
     // reset variables
+    P->livePlayer = true;
     wallCount = 0;
     enemyCount = 0;
 }

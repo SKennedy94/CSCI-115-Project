@@ -28,12 +28,15 @@
 
 using namespace std;
 
-enum GameStates{LANDING, TITLE, GAME};
+enum GameStates{LANDING, TITLE, GAME, VICTORY, DEFEAT};
 
 LevelLoader *L = new LevelLoader();
 Scene *Title = new Scene();
+Scene *winScreen = new Scene();
+Scene *loseScreen = new Scene();
 
 GameStates gameState = TITLE;
+bool action = true;
 
 Timer *T0 = new Timer();                        // animation timer
 
@@ -79,6 +82,8 @@ void init()
     L->M->loadBackgroundImage("images/bak.jpg");           // Load maze background image
     L->load("levels/level1.txt");
     Title->bindTexture("images/Title.png");
+    winScreen->bindTexture("images/victory.png");
+    loseScreen->bindTexture("images/defeat.png");
 }
 
 // check Collisions can go into levelLoader Code
@@ -92,17 +97,68 @@ void checkCollisions(){
             L->P->placePlayer(L->P->wPos.x, L->P->wPos.y);
         }
     }
+    //check enemy wall collisions
+    for (int e = 0; e < L->enemyCount; e++){
+        for (int i = 0; i < L->wallCount; i++){
+            if(L->E[e].ePos.x == L->W[i].wallPos.x && L->E[e].ePos.y == L->W[i].wallPos.y){
+                L->matrix[L->E[e].ePos.x][L->E[e].ePos.y] = 1;
+                L->matrix[L->E[e].prevPos.x][L->E[e].prevPos.y] = 2;
+                L->E[e].ePos = L->E[e].prevPos;
+                L->E->placeEnemy(L->E[e].ePos.x, L->E[e].ePos.y);
+            }
+        }
+
+        for(int j = 1; j < L->enemyCount; j++){
+            if(j != e) {
+                if(L->E[e].live && L->E[j].live && L->E[e].ePos.x == L->E[j].ePos.x && L->E[e].ePos.y == L->E[j].ePos.y) {
+                    L->E[e].ePos.x = L->E[e].prevPos.x;
+                    L->E[e].ePos.y = L->E[e].prevPos.y;
+                    L->E[e].placeEnemy(L->E[e].ePos.x,L->E[e].ePos.y);
+                }
+            }
+        }
+    }
+
+    for (int b = 0; b < L->bushCount; b++){
+        if(L->P->wPos.x == L->B[b].wallPos.x && L->P->wPos.y == L->B[b].wallPos.y){
+            if(L->P->isHidden == false)
+            L->P->isHidden = true;
+        }
+        else{
+            if(L->P->isHidden == true)
+            L->P->isHidden = false;
+        }
+        if (L->P->prevPos.x == L->B[b].wallPos.x && L->P->prevPos.y == L->B[b].wallPos.y) {
+            L->matrix[L->P->prevPos.x][L->P->prevPos.y] = 5;
+        }
+    }
+    for (int e = 0; e < L->enemyCount; e++){
+        if (L->P->wPos.x == L->E[e].ePos.x && L->P->wPos.y ==L->E[e].ePos.y){
+            // LEVEL SELECTOR AND VARIABLE TO KEEP TRACK
+            L->P->livePlayer = false;
+            gameState = DEFEAT;
+        }
+        if (L->P->wPos.x == L->E[e].prevPos.x && L->P->wPos.y ==L->E[e].prevPos.y){
+            // LEVEL SELECTOR AND VARIABLE TO KEEP TRACK
+            L->P->livePlayer = false;
+            gameState = DEFEAT;
+        }
+    }
     //check player chest collision
     if (L->P->wPos.x == L->M->GetChestLoc().x && L->P->wPos.y == L->M->GetChestLoc().y){
         // LEVEL SELECTOR AND VARIABLE TO KEEP TRACK
-        L->reset();
-        L->load("levels/level2.txt");
+        if(L->P->livePlayer)
+        gameState = VICTORY;
     }
+
 }
 
 void moveEnemies(){
-    for(int i = 0; i < L->enemyCount; i++){
-        L->E[i].moveEnemy(L->matrix);
+    if (gameState == GAME){
+        for(int i = 0; i < L->enemyCount; i++){
+            if(L->E[i].live)
+            L->E[i].moveEnemy(L->matrix, L->P->isHidden);
+        }
     }
 }
 
@@ -118,7 +174,7 @@ void display(void)
             Title->drawScene();
         glPopMatrix();
     }
-    else if (gameState = GAME){
+    else if (gameState == GAME){
         glPushMatrix();
             L->M->drawBackground();
         glPopMatrix();
@@ -126,7 +182,11 @@ void display(void)
         glPushMatrix();
             L->M->drawGrid();
         glPopMatrix();
-
+        for(int i=0; i<L->bushCount;i++){
+           glPushMatrix();
+           L->B[i].drawWall();
+           glPopMatrix();
+        }
         glPushMatrix();
             L->P->drawplayer();
         glPopMatrix();
@@ -147,6 +207,7 @@ void display(void)
         for(int i=0; i<(sizeof(L->E)/sizeof(Enemies));i++)
         {
             glPushMatrix();
+            L->E[i].placeEnemy(L->E[i].ePos.x, L->E[i].ePos.y);
             L->E[i].drawEnemy();
             glPopMatrix();
         }
@@ -157,6 +218,17 @@ void display(void)
            L->W[i].drawWall();
            glPopMatrix();
         }
+
+    }
+    else if(gameState == VICTORY){
+        glPushMatrix();
+            winScreen->drawScene();
+        glPopMatrix();
+    }
+    else if (gameState == DEFEAT){
+        glPushMatrix();
+            loseScreen->drawScene();
+        glPopMatrix();
     }
 
     glutSwapBuffers();
@@ -168,9 +240,13 @@ void key(unsigned char key, int x, int y)
 {
     switch(key){
         case 'p':
-            if(gameState == TITLE){
+            if(gameState == TITLE || gameState == DEFEAT || gameState == VICTORY ){
+                //make a current level variable
+                L->reset();
+                L->load("levels/level1.txt");
                 gameState = GAME;
             }
+
         break;
         case 27:
             if(gameState == TITLE){
@@ -181,9 +257,9 @@ void key(unsigned char key, int x, int y)
             }
         break;
         case ' ':
-            if(gameState = GAME){
+            if(gameState == GAME){
                 L->reset();
-                L->load("levels/level2.txt");
+                L->load("levels/level1.txt");
             }
         break;
 
@@ -226,41 +302,56 @@ void Specialkeys(int key, int x, int y)
 {
     L->P->prevPos = L->P->wPos;
     // Your Code here
-    switch(key)
-    {
     if(gameState == GAME){
-        case GLUT_KEY_UP:
-             moveEnemies();
-             L->matrix[L->P->wPos.x][L->P->wPos.y] = 0;
-             L->P->movePlayer("up");
-             L->matrix[L->P->wPos.x][L->P->wPos.y] = 4;
-        break;
+        switch(key)
+        {
 
-        case GLUT_KEY_DOWN:
-             moveEnemies();
-             L->matrix[L->P->wPos.x][L->P->wPos.y] = 0;
-             L->P->movePlayer("down");
-             L->matrix[L->P->wPos.x][L->P->wPos.y] = 4;
-        break;
+            case GLUT_KEY_UP:
+                 moveEnemies();
+                 if (L->matrix[L->P->wPos.x][L->P->wPos.y+1] != 1){
+                     L->matrix[L->P->wPos.x][L->P->wPos.y] = 0;
+                     L->P->movePlayer("up");
+                     L->matrix[L->P->wPos.x][L->P->wPos.y] = 4;
+                 }
+            break;
 
-        case GLUT_KEY_LEFT:
-             moveEnemies();
-             L->matrix[L->P->wPos.x][L->P->wPos.y] = 0;
-             L->P->movePlayer("left");
-             L->matrix[L->P->wPos.x][L->P->wPos.y] = 4;
+            case GLUT_KEY_DOWN:
+                 moveEnemies();
+                if (L->matrix[L->P->wPos.x][L->P->wPos.y-1] != 1){
+                     L->matrix[L->P->wPos.x][L->P->wPos.y] = 0;
+                     L->P->movePlayer("down");
+                     L->matrix[L->P->wPos.x][L->P->wPos.y] = 4;
+                }
+            break;
 
-        break;
+            case GLUT_KEY_LEFT:
+                 moveEnemies();
+                if (L->matrix[L->P->wPos.x-1][L->P->wPos.y] != 1){
+                 L->matrix[L->P->wPos.x][L->P->wPos.y] = 0;
+                 L->P->movePlayer("left");
+                 L->matrix[L->P->wPos.x][L->P->wPos.y] = 4;
+                }
 
-        case GLUT_KEY_RIGHT:
-             moveEnemies();
-             L->matrix[L->P->wPos.x][L->P->wPos.y] = 0;
-             L->P->movePlayer("right");
-             L->matrix[L->P->wPos.x][L->P->wPos.y] = 4;
-        break;
+            break;
 
-       }
+            case GLUT_KEY_RIGHT:
+                 moveEnemies();
+                if (L->matrix[L->P->wPos.x+1][L->P->wPos.y] != 1){
+                 L->matrix[L->P->wPos.x][L->P->wPos.y] = 0;
+                 L->P->movePlayer("right");
+                 L->matrix[L->P->wPos.x][L->P->wPos.y] = 4;
+                }
+            break;
+
+           }
     }
   glutPostRedisplay();
+        for (int i=0; i<L->M->getGridSize(); i++){
+        for (int j=0;j<L->M->getGridSize(); j++){
+                cout<<L->matrix[i][j]<<" ";
+        }
+        cout<<endl;
+   }
 }
 
 
@@ -273,7 +364,7 @@ int main(int argc, char *argv[])
    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
    glutInitWindowSize (800, 800);                //window screen
    glutInitWindowPosition (100, 100);            //window position
-   glutCreateWindow ("Maze");                    //program title
+   glutCreateWindow ("CSCI 115 Project");                    //program title
    init();
 
    glutDisplayFunc(display);                     //callback function for display

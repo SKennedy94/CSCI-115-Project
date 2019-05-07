@@ -13,7 +13,7 @@
 #include <math.h>       /* ceil */
 
 enum State {WANDER,CHASE};
-enum Inter {UR,UL,DR,DL,URL,LUD,DRL,RUD,A,N};
+enum Inter {UR,UL,DR,DL,URL,LUD,DRL,RUD,ER,EL,EU,ED,A,N};
 
 class Enemies
 {
@@ -24,7 +24,7 @@ class Enemies
 
         void placeEnemy(int,int);           // place enemy
         void drawEnemy();                   // Draw Enemy with Animation
-        void moveEnemy(int [25][25]);             // move Enemy left,right,up,down
+        void moveEnemy(int [25][25], bool);             // move Enemy left,right,up,down
         void animate();                     // Animate sprite
         GridLoc getEnemyLoc();              // Return Enemy current grid location
         int nextMove;                       // 0-3 {N,E,S,W} used to determine random movement
@@ -50,7 +50,12 @@ class Enemies
          float moveDis=0;                   // Moving distance for animation
          loc enmLoc;                        // location of the enemy
          void Wander(int [25][25]);
+         void Chase(int [25][25]);
          Inter isIntersection(int [25][25]);
+         bool isVisible(int [25][25]);
+         int findPlayer(int [25][25]);
+         int sightDistance = 5;
+         bool WR=false,WL=false,WU=false,WD=false;
 };
 
 #endif // ENEMIES_H

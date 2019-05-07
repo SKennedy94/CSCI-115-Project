@@ -282,7 +282,7 @@
 1555119812 c:\users\seamu\desktop\mazeviii\maze\include\scene.h
 	<GL/gl.h>
 
-1557097076 source:c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\main.cpp
+1557212539 source:c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\main.cpp
 	<string.h>
 	<CommonThings.h>
 	<Maze.h>
@@ -325,7 +325,7 @@
 	<GL/gl.h>
 	<GL/glu.h>
 
-1556734294 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\include\player.h
+1557195958 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\include\player.h
 	<CommonThings.h>
 	<string.h>
 	<gl/gl.h>
@@ -335,7 +335,7 @@
 	<Timer.h>
 	<math.h>
 
-1557120725 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\include\enemies.h
+1557202436 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\include\enemies.h
 	<CommonThings.h>
 	<Maze.h>
 	<time.h>
@@ -353,23 +353,24 @@
 	<Timer.h>
 	<math.h>
 
-1557096625 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\include\levelloader.h
+1557195207 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\include\levelloader.h
 	<string>
 	<Maze.h>
 	<wall.h>
 	<Enemies.h>
 	<player.h>
+	<Bush.h>
 
 1555119812 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\include\scene.h
 	<GL/gl.h>
 
-1557122736 source:c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\src\enemies.cpp
+1557211854 source:c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\src\enemies.cpp
 	<Enemies.h>
 	<iostream>
 	<time.h>
 	<stdlib.h>
 
-1557096189 source:c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\src\levelloader.cpp
+1557206837 source:c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\src\levelloader.cpp
 	"LevelLoader.h"
 	<fstream>
 
@@ -389,4 +390,18 @@
 
 1556734007 source:c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\src\player.cpp
 	<Player.h>
+
+1557195258 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\include\bush.h
+	<CommonThings.h>
+	<string.h>
+	<gl/gl.h>
+	<GL/glut.h>
+	<SOIL.h>
+	<iostream>
+	<Timer.h>
+	<math.h>
+
+1557195285 source:c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\src\bush.cpp
+	<Bush.h>
+	<iostream>
 

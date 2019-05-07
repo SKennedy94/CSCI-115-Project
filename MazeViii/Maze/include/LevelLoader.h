@@ -6,6 +6,7 @@
 #include <wall.h>
 #include <Enemies.h>
 #include <player.h>
+#include <Bush.h>
 
 class LevelLoader
 {
@@ -17,12 +18,13 @@ class LevelLoader
         Enemies E[20];
         wall W[400];                         // Set Maze grid size
         Player *P = new Player();
+        Bush B[20];
 
         int matrix[25][25];
         void load(string);
         void reset();
 
-        int wallCount=0, enemyCount=0;
+        int wallCount=0, enemyCount=0; int bushCount=0;
     protected:
 
     private:
