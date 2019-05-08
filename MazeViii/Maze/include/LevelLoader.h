@@ -14,15 +14,17 @@ class LevelLoader
         LevelLoader();
         virtual ~LevelLoader();
 
-        Maze *M = new Maze(20);
+        Maze *M = new Maze(25);
         Enemies E[20];
         wall W[400];                         // Set Maze grid size
         Player *P = new Player();
-        Bush B[20];
+        Bush B[100];
 
         int matrix[25][25];
         void load(string);
         void reset();
+
+        int levelSelector = 1;
 
         int wallCount=0, enemyCount=0; int bushCount=0;
     protected:

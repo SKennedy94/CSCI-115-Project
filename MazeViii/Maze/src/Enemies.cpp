@@ -107,19 +107,19 @@ void Enemies::moveEnemy(int matrix[25][25], bool isHidden)
         }
     }
     else if(dir == "left"){
-        if(matrix[ePos.x-1][ePos.y] != 1 && matrix[ePos.x+1][ePos.y] != 2){        //Right
+        if(matrix[ePos.x-1][ePos.y] != 1 && matrix[ePos.x+1][ePos.y] != 2){        //left
             matrix[ePos.x-1][ePos.y] = 2;
             ePos.x-=1;
         }
     }
     else if(dir == "up"){
-        if(matrix[ePos.x][ePos.y+1] != 1 && matrix[ePos.x+1][ePos.y] != 2){        //Right
+        if(matrix[ePos.x][ePos.y+1] != 1 && matrix[ePos.x+1][ePos.y] != 2){        //up
             matrix[ePos.x][ePos.y+1] = 2;
             ePos.y+=1;
         }
     }
     else if(dir == "down"){
-        if(matrix[ePos.x][ePos.y-1] != 1 && matrix[ePos.x+1][ePos.y] != 2){        //Right
+        if(matrix[ePos.x][ePos.y-1] != 1 && matrix[ePos.x+1][ePos.y] != 2){        //down
             matrix[ePos.x][ePos.y-1] = 2;
             ePos.y-=1;
         }
@@ -231,44 +231,44 @@ Inter Enemies::isIntersection(int matrix[25][25]){
     if(matrix[ePos.x+1][ePos.y] == 0 &&
        matrix[ePos.x-1][ePos.y] == 0 &&
        matrix[ePos.x][ePos.y-1] == 0 &&
-       matrix[ePos.x][ePos.y+1] == 0){cout<<"A intersection"<<endl; return A;}
+       matrix[ePos.x][ePos.y+1] == 0){ return A;}
     else if(matrix[ePos.x+1][ePos.y] == 0 &&
             matrix[ePos.x-1][ePos.y] != 0 &&
             matrix[ePos.x][ePos.y-1] != 0 &&
-            matrix[ePos.x][ePos.y+1] != 0){cout<<"ER intersection"<<endl; return ER;}
+            matrix[ePos.x][ePos.y+1] != 0){ return ER;}
     else if(matrix[ePos.x+1][ePos.y] != 0 &&
             matrix[ePos.x-1][ePos.y] == 0 &&
             matrix[ePos.x][ePos.y-1] != 0 &&
-            matrix[ePos.x][ePos.y+1] != 0){cout<<"EL intersection"<<endl; return EL;}
+            matrix[ePos.x][ePos.y+1] != 0){ return EL;}
     else if(matrix[ePos.x+1][ePos.y] != 0 &&
             matrix[ePos.x-1][ePos.y] != 0 &&
             matrix[ePos.x][ePos.y-1] != 0 &&
-            matrix[ePos.x][ePos.y+1] == 0){cout<<"EU intersection"<<endl; return EU;}
+            matrix[ePos.x][ePos.y+1] == 0){ return EU;}
     else if(matrix[ePos.x+1][ePos.y] != 0 &&
             matrix[ePos.x-1][ePos.y] != 0 &&
             matrix[ePos.x][ePos.y-1] == 0 &&
-            matrix[ePos.x][ePos.y+1] != 0){cout<<"ED intersection"<<endl; return ED;}
+            matrix[ePos.x][ePos.y+1] != 0){ return ED;}
     else if(matrix[ePos.x][ePos.y+1]== 0 &&
             matrix[ePos.x+1][ePos.y]== 0 &&
-            matrix[ePos.x-1][ePos.y]== 0 ){cout<<"URL intersection"<<endl; return URL;}        //URL
+            matrix[ePos.x-1][ePos.y]== 0 ){ return URL;}        //URL
     else if(matrix[ePos.x][ePos.y-1]== 0 &&
             matrix[ePos.x+1][ePos.y]== 0 &&
-            matrix[ePos.x-1][ePos.y]== 0 ){cout<<"DRL intersection"<<endl; return DRL;}        //DRL
+            matrix[ePos.x-1][ePos.y]== 0 ){ return DRL;}        //DRL
     else if(matrix[ePos.x][ePos.y+1]== 0 &&
             matrix[ePos.x][ePos.y-1]== 0 &&
-            matrix[ePos.x-1][ePos.y]== 0 ){cout<<"LUD intersection"<<endl; return LUD;}        //LUD
+            matrix[ePos.x-1][ePos.y]== 0 ){ return LUD;}        //LUD
     else if(matrix[ePos.x][ePos.y+1]== 0 &&
             matrix[ePos.x][ePos.y-1]== 0 &&
-            matrix[ePos.x+1][ePos.y]== 0 ){cout<<"RUD intersection"<<endl; return RUD;}        //RUD
+            matrix[ePos.x+1][ePos.y]== 0 ){ return RUD;}        //RUD
     else if(matrix[ePos.x+1][ePos.y] == 0 &&
-            matrix[ePos.x][ePos.y+1]== 0 ){cout<<"UR intersection"<<endl; return UR;}         //up-right
+            matrix[ePos.x][ePos.y+1]== 0 ){ return UR;}         //up-right
     else if(matrix[ePos.x-1][ePos.y]== 0 &&
-            matrix[ePos.x][ePos.y+1]== 0 ){cout<<"UL intersection"<<endl; return UL;}         //up-left
+            matrix[ePos.x][ePos.y+1]== 0 ){ return UL;}         //up-left
     else if(matrix[ePos.x-1][ePos.y]== 0 &&
-            matrix[ePos.x][ePos.y-1]== 0 ){cout<<"DL intersection"<<endl; return DL;}         //down-left
+            matrix[ePos.x][ePos.y-1]== 0 ){ return DL;}         //down-left
     else if(matrix[ePos.x+1][ePos.y]== 0 &&
-            matrix[ePos.x][ePos.y-1]== 0 ){cout<<"DR intersection"<<endl; return DR;}         //down-right
-    else{cout<<"no intersection"<<endl;return N;}
+            matrix[ePos.x][ePos.y-1]== 0 ){ return DR;}         //down-right
+    else{return N;}
 }
 
 void Enemies::Wander(int matrix[25][25]){
@@ -373,7 +373,7 @@ if(down)
             }
     }
 
-  else if(left)
+  else if(right)
    {
          if(enmLoc.y > -1+unitWidth/2)
            {
@@ -391,7 +391,7 @@ if(down)
             }
 
    }
-   else if(right)
+   else if(up)
    {
        if(enmLoc.x>-1+unitWidth/2)
         {
@@ -409,7 +409,7 @@ if(down)
             }
    }
 
-   else if(up)
+   else if(left)
    {
        if(enmLoc.x<1-unitWidth/2)
           {

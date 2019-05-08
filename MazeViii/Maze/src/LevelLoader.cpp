@@ -48,7 +48,7 @@ void LevelLoader::load(string fileName){
             }
             else if(index == '2'){
                 matrix[i][j]=0;
-                E[enemyCount].initEnm(M->getGridSize(),7,"images/goblin.png");
+                E[enemyCount].initEnm(M->getGridSize(),4,"images/stormtrooper.png");
                 E[enemyCount].live = true;
                 E[enemyCount].placeEnemy(i,j);
                 enemyCount++;
@@ -60,7 +60,7 @@ void LevelLoader::load(string fileName){
             }
             else if(index == '4'){
                 matrix[i][j]=0;
-                P->initPlayer(M->getGridSize(),6,"images/p.png");
+                P->initPlayer(M->getGridSize(),4,"images/r2d2.png");
                 P->placePlayer(i,j);
             }
             else if(index == '5'){
@@ -93,9 +93,13 @@ void LevelLoader::reset(){
         E[i].ePos.y = 0;
         E[i].live = false;
     }
+        for(int i=0; i<bushCount;i++){
+        B[i].liveWall = false;
+    }
 
     // reset variables
     P->livePlayer = true;
     wallCount = 0;
     enemyCount = 0;
+    bushCount = 0;
 }

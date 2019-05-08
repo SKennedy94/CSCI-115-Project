@@ -23,6 +23,7 @@
 #include <math.h>
 #include <LevelLoader.h>
 #include <Scene.h>
+#include <Sounds.h>
 
 /* GLUT callback Handlers */
 
@@ -34,6 +35,8 @@ LevelLoader *L = new LevelLoader();
 Scene *Title = new Scene();
 Scene *winScreen = new Scene();
 Scene *loseScreen = new Scene();
+
+Sounds *audio = new Sounds();
 
 GameStates gameState = TITLE;
 bool action = true;
@@ -79,7 +82,9 @@ void init()
     glEnable(GL_BLEND);                                 //display images with transparent
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    L->M->loadBackgroundImage("images/bak.jpg");           // Load maze background image
+    audio->playMusic("sounds/intro.mp3");
+
+    L->M->loadBackgroundImage("images/bak.png");           // Load maze background image
     L->load("levels/level1.txt");
     Title->bindTexture("images/Title.png");
     winScreen->bindTexture("images/victory.png");
@@ -88,6 +93,7 @@ void init()
 
 // check Collisions can go into levelLoader Code
 void checkCollisions(){
+    L->P->isHidden = false;
     //check player wall collisions
     for (int i = 0; i < L->wallCount; i++){
         if(L->P->wPos.x == L->W[i].wallPos.x && L->P->wPos.y == L->W[i].wallPos.y){
@@ -121,34 +127,46 @@ void checkCollisions(){
 
     for (int b = 0; b < L->bushCount; b++){
         if(L->P->wPos.x == L->B[b].wallPos.x && L->P->wPos.y == L->B[b].wallPos.y){
-            if(L->P->isHidden == false)
-            L->P->isHidden = true;
+            //L->P->isHidden = true;
+            L->B[b].hasPlayer = true;
         }
         else{
-            if(L->P->isHidden == true)
-            L->P->isHidden = false;
+            //L->P->isHidden = false;
+            L->B[b].hasPlayer = false;
+
         }
-        if (L->P->prevPos.x == L->B[b].wallPos.x && L->P->prevPos.y == L->B[b].wallPos.y) {
-            L->matrix[L->P->prevPos.x][L->P->prevPos.y] = 5;
+        if (!L->B[b].hasPlayer && L->P->prevPos.x == L->B[b].wallPos.x && L->P->prevPos.y == L->B[b].wallPos.y) {
+            L->matrix[L->B[b].wallPos.x][L->B[b].wallPos.y] = 5;
+        }
+        if(L->B[b].hasPlayer){
+            L->P->isHidden = true;
         }
     }
     for (int e = 0; e < L->enemyCount; e++){
         if (L->P->wPos.x == L->E[e].ePos.x && L->P->wPos.y ==L->E[e].ePos.y){
             // LEVEL SELECTOR AND VARIABLE TO KEEP TRACK
+            //audio->stopAllSounds();
+            audio->playSound("sounds/death.mp3");
             L->P->livePlayer = false;
             gameState = DEFEAT;
+            L->levelSelector = 1;
         }
         if (L->P->wPos.x == L->E[e].prevPos.x && L->P->wPos.y ==L->E[e].prevPos.y){
             // LEVEL SELECTOR AND VARIABLE TO KEEP TRACK
+            //audio->stopAllSounds();
+            audio->playSound("sounds/death.mp3");
             L->P->livePlayer = false;
             gameState = DEFEAT;
+            L->levelSelector = 1;
         }
     }
     //check player chest collision
     if (L->P->wPos.x == L->M->GetChestLoc().x && L->P->wPos.y == L->M->GetChestLoc().y){
         // LEVEL SELECTOR AND VARIABLE TO KEEP TRACK
         if(L->P->livePlayer)
+        audio->playSound("sounds/victory.mp3");
         gameState = VICTORY;
+        L->levelSelector++;
     }
 
 }
@@ -164,7 +182,7 @@ void moveEnemies(){
 
 void display(void)
 {
-    checkCollisions();
+
     time_now = glutGet(GLUT_ELAPSED_TIME);
     if ((time_now - time_prev) > 1000/FPS){
   glClear (GL_COLOR_BUFFER_BIT);        // clear display screen
@@ -242,24 +260,37 @@ void key(unsigned char key, int x, int y)
         case 'p':
             if(gameState == TITLE || gameState == DEFEAT || gameState == VICTORY ){
                 //make a current level variable
-                L->reset();
-                L->load("levels/level1.txt");
+                if(L->levelSelector == 1){
+                    L->reset();
+                    L->load("levels/level1.txt");
+                }
+                if(L->levelSelector == 2){
+                    L->reset();
+                    L->load("levels/level2.txt");
+                }
+                if(L->levelSelector == 3){
+                    L->reset();
+                    L->load("levels/level3.txt");
+                }
+                if(L->levelSelector > 2){
+                    gameState = TITLE;
+                    L->levelSelector = 0;
+                }
                 gameState = GAME;
             }
 
         break;
+        case 'm':
+            if (gameState == VICTORY || gameState == DEFEAT){
+                gameState = TITLE;
+            }
+            break;
         case 27:
             if(gameState == TITLE){
             exit(0);
             }
             else {
                 gameState = TITLE;
-            }
-        break;
-        case ' ':
-            if(gameState == GAME){
-                L->reset();
-                L->load("levels/level1.txt");
             }
         break;
 
@@ -300,6 +331,7 @@ void key(unsigned char key, int x, int y)
 
 void Specialkeys(int key, int x, int y)
 {
+    checkCollisions();
     L->P->prevPos = L->P->wPos;
     // Your Code here
     if(gameState == GAME){
@@ -309,7 +341,7 @@ void Specialkeys(int key, int x, int y)
             case GLUT_KEY_UP:
                  moveEnemies();
                  if (L->matrix[L->P->wPos.x][L->P->wPos.y+1] != 1){
-                     L->matrix[L->P->wPos.x][L->P->wPos.y] = 0;
+                    L->matrix[L->P->prevPos.x][L->P->prevPos.y] = 0;
                      L->P->movePlayer("up");
                      L->matrix[L->P->wPos.x][L->P->wPos.y] = 4;
                  }
@@ -317,41 +349,36 @@ void Specialkeys(int key, int x, int y)
 
             case GLUT_KEY_DOWN:
                  moveEnemies();
-                if (L->matrix[L->P->wPos.x][L->P->wPos.y-1] != 1){
-                     L->matrix[L->P->wPos.x][L->P->wPos.y] = 0;
+                 if (L->matrix[L->P->wPos.x][L->P->wPos.y-1] != 1){
+                    L->matrix[L->P->prevPos.x][L->P->prevPos.y] = 0;
                      L->P->movePlayer("down");
                      L->matrix[L->P->wPos.x][L->P->wPos.y] = 4;
-                }
+                 }
             break;
 
             case GLUT_KEY_LEFT:
                  moveEnemies();
-                if (L->matrix[L->P->wPos.x-1][L->P->wPos.y] != 1){
-                 L->matrix[L->P->wPos.x][L->P->wPos.y] = 0;
-                 L->P->movePlayer("left");
-                 L->matrix[L->P->wPos.x][L->P->wPos.y] = 4;
-                }
-
+                 if (L->matrix[L->P->wPos.x-1][L->P->wPos.y] != 1){
+                    L->matrix[L->P->prevPos.x][L->P->prevPos.y] = 0;
+                     L->P->movePlayer("left");
+                     L->matrix[L->P->wPos.x][L->P->wPos.y] = 4;
+                 }
             break;
 
             case GLUT_KEY_RIGHT:
                  moveEnemies();
-                if (L->matrix[L->P->wPos.x+1][L->P->wPos.y] != 1){
-                 L->matrix[L->P->wPos.x][L->P->wPos.y] = 0;
-                 L->P->movePlayer("right");
-                 L->matrix[L->P->wPos.x][L->P->wPos.y] = 4;
-                }
+                 if (L->matrix[L->P->wPos.x+1][L->P->wPos.y] != 1){
+                    L->matrix[L->P->prevPos.x][L->P->prevPos.y] = 0;
+                     L->P->movePlayer("right");
+                     L->matrix[L->P->wPos.x][L->P->wPos.y] = 4;
+                 }
             break;
 
-           }
     }
   glutPostRedisplay();
-        for (int i=0; i<L->M->getGridSize(); i++){
-        for (int j=0;j<L->M->getGridSize(); j++){
-                cout<<L->matrix[i][j]<<" ";
-        }
-        cout<<endl;
-   }
+
+}
+        checkCollisions();
 }
 
 

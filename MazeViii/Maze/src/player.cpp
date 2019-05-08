@@ -161,7 +161,7 @@ void Player::initPlayer(int gSize,int frams, char *FileName)
     ymin =0;
 
     unitWidth = (float)2/gridSize;
-    stepsPerMove = frames;
+    stepsPerMove = 1;
 
     T->Start();
     plyLoc.x= -unitWidth;
@@ -189,15 +189,15 @@ void Player::movePlayer(char* dir)
         if(T->GetTicks()>10)
         {
             if(plyLoc.x>-1+unitWidth/2)
-                plyLoc.x -= 6*t;
+                plyLoc.x -= t;
             if(xmax>=1){
                 xmax =1/(float)frames;
                 xmin =0;
             }
             xmin += 1/(float)frames;
             xmax += 1/(float)frames;
-            ymin =0.75;
-            ymax =1.0;
+            ymin =0.5;
+            ymax =0.75;
             T->Reset();
         }
    }
@@ -209,7 +209,7 @@ void Player::movePlayer(char* dir)
         if(T->GetTicks()>1)
         {
             if(plyLoc.x<1-unitWidth/2)
-            plyLoc.x += 6*t;
+            plyLoc.x += t;
 
             if(xmax>=1){
                 xmax =1/(float)frames;
@@ -217,8 +217,8 @@ void Player::movePlayer(char* dir)
             }
             xmin +=1/(float)frames;
             xmax +=1/(float)frames;
-            ymin =0.5;
-            ymax =0.75;
+            ymin =0.25;
+            ymax =0.5;
             T->Reset();
         }
    }
@@ -229,7 +229,7 @@ void Player::movePlayer(char* dir)
         wPos.y += 1;
         if(T->GetTicks()>1)
         { if(plyLoc.y< 1-unitWidth/2)
-            plyLoc.y += 6*t;
+            plyLoc.y += t;
             if(xmax>=1){
                 xmax =1/(float)frames;
                 xmin =0;
@@ -237,8 +237,8 @@ void Player::movePlayer(char* dir)
             xmin +=1/(float)frames;
             xmax +=1/(float)frames;
 
-            ymin =0.25;
-            ymax =0.50;
+            ymin =0.75;
+            ymax =1.0;
 
             T->Reset();
         }
@@ -251,7 +251,7 @@ void Player::movePlayer(char* dir)
         if(T->GetTicks()>1)
         {
             if(plyLoc.y > -1+unitWidth/2)
-                plyLoc.y -= 6*t;
+                plyLoc.y -= t;
             if(xmax>=1){
                 xmax =1/(float)frames;
                 xmin =0;

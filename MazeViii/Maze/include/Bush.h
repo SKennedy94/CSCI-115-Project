@@ -27,6 +27,7 @@ class Bush
 
             bool liveWall;                 // wall status (broken or not)
             GridLoc wallPos;
+            bool hasPlayer = false;
     protected:
 
     private:

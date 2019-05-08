@@ -282,7 +282,7 @@
 1555119812 c:\users\seamu\desktop\mazeviii\maze\include\scene.h
 	<GL/gl.h>
 
-1557212539 source:c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\main.cpp
+1557304630 source:c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\main.cpp
 	<string.h>
 	<CommonThings.h>
 	<Maze.h>
@@ -297,6 +297,7 @@
 	<math.h>
 	<LevelLoader.h>
 	<Scene.h>
+	<Sounds.h>
 
 1551828187 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\include\commonthings.h
 	<GL/gl.h>
@@ -353,7 +354,7 @@
 	<Timer.h>
 	<math.h>
 
-1557195207 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\include\levelloader.h
+1557303500 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\include\levelloader.h
 	<string>
 	<Maze.h>
 	<wall.h>
@@ -364,17 +365,17 @@
 1555119812 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\include\scene.h
 	<GL/gl.h>
 
-1557211854 source:c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\src\enemies.cpp
+1557299118 source:c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\src\enemies.cpp
 	<Enemies.h>
 	<iostream>
 	<time.h>
 	<stdlib.h>
 
-1557206837 source:c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\src\levelloader.cpp
+1557300978 source:c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\src\levelloader.cpp
 	"LevelLoader.h"
 	<fstream>
 
-1556751931 source:c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\src\maze.cpp
+1557301361 source:c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\src\maze.cpp
 	<Maze.h>
 
 1555119800 source:c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\src\scene.cpp
@@ -388,10 +389,10 @@
 	<wall.h>
 	<iostream>
 
-1556734007 source:c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\src\player.cpp
+1557299333 source:c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\src\player.cpp
 	<Player.h>
 
-1557195258 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\include\bush.h
+1557266337 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\include\bush.h
 	<CommonThings.h>
 	<string.h>
 	<gl/gl.h>
@@ -404,4 +405,108 @@
 1557195285 source:c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\src\bush.cpp
 	<Bush.h>
 	<iostream>
+
+1557303960 source:c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\src\sounds.cpp
+	"Sounds.h"
+	<iostream>
+
+1557303990 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\include\sounds.h
+	<SNDS/irrKlang.h>
+
+1551828186 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\common\include\snds\irrklang.h
+	"ik_irrKlangTypes.h"
+	"ik_vec3d.h"
+	"ik_IRefCounted.h"
+	"ik_IVirtualRefCounted.h"
+	"ik_ESoundOutputDrivers.h"
+	"ik_ESoundEngineOptions.h"
+	"ik_EStreamModes.h"
+	"ik_SAudioStreamFormat.h"
+	"ik_ISoundEngine.h"
+	"ik_ISoundSource.h"
+	"ik_ISound.h"
+	"ik_IAudioStream.h"
+	"ik_IAudioStreamLoader.h"
+	"ik_ISoundEffectControl.h"
+	"ik_ISoundStopEventReceiver.h"
+	"ik_IFileFactory.h"
+	"ik_IFileReader.h"
+	"ik_ISoundDeviceList.h"
+	"ik_IAudioRecorder.h"
+	"ik_ISoundMixedOutputReceiver.h"
+
+1551828185 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\common\include\snds\ik_irrklangtypes.h
+	<wchar.h>
+
+1551828186 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\common\include\snds\ik_vec3d.h
+	<math.h>
+	"ik_irrKlangTypes.h"
+
+1551828185 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\common\include\snds\ik_irefcounted.h
+	"ik_irrKlangTypes.h"
+
+1551828185 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\common\include\snds\ik_ivirtualrefcounted.h
+	"ik_irrKlangTypes.h"
+
+1551828184 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\common\include\snds\ik_esoundoutputdrivers.h
+
+1551828184 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\common\include\snds\ik_esoundengineoptions.h
+
+1551828184 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\common\include\snds\ik_estreammodes.h
+
+1551828185 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\common\include\snds\ik_saudiostreamformat.h
+	"ik_IRefCounted.h"
+
+1551828185 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\common\include\snds\ik_isoundengine.h
+	"ik_IRefCounted.h"
+	"ik_vec3d.h"
+	"ik_ISoundSource.h"
+	"ik_ISound.h"
+	"ik_EStreamModes.h"
+	"ik_IFileFactory.h"
+	"ik_ISoundMixedOutputReceiver.h"
+
+1551828185 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\common\include\snds\ik_isoundsource.h
+	"ik_IVirtualRefCounted.h"
+	"ik_vec3d.h"
+	"ik_EStreamModes.h"
+	"ik_SAudioStreamFormat.h"
+
+1551828185 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\common\include\snds\ik_isound.h
+	"ik_IVirtualRefCounted.h"
+	"ik_ISoundEffectControl.h"
+	"ik_vec3d.h"
+
+1551828185 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\common\include\snds\ik_isoundeffectcontrol.h
+	"ik_IVirtualRefCounted.h"
+	"ik_vec3d.h"
+
+1551828185 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\common\include\snds\ik_ifilefactory.h
+	"ik_IRefCounted.h"
+
+1551828185 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\common\include\snds\ik_isoundmixedoutputreceiver.h
+	"ik_IRefCounted.h"
+	"ik_SAudioStreamFormat.h"
+
+1551828184 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\common\include\snds\ik_iaudiostream.h
+	"ik_IRefCounted.h"
+	"ik_SAudioStreamFormat.h"
+
+1551828185 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\common\include\snds\ik_iaudiostreamloader.h
+	"ik_IRefCounted.h"
+	"ik_IFileReader.h"
+
+1551828185 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\common\include\snds\ik_ifilereader.h
+	"ik_IRefCounted.h"
+
+1551828185 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\common\include\snds\ik_isoundstopeventreceiver.h
+	"ik_IRefCounted.h"
+	"ik_SAudioStreamFormat.h"
+
+1551828185 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\common\include\snds\ik_isounddevicelist.h
+	"ik_IRefCounted.h"
+
+1551828184 c:\users\seamu\documents\github\csci-115-project\mazeviii\maze\common\include\snds\ik_iaudiorecorder.h
+	"ik_IRefCounted.h"
+	"ik_ISoundSource.h"
 
