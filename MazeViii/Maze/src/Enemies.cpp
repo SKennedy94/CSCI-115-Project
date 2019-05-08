@@ -78,8 +78,6 @@ void Enemies::placeEnemy(int x, int y)
 {
 
     unitWidth = 2.0/gridSize;
-    ePos.x = x;
-    ePos.y = y;
     x+=1;
     y+=1;
     enmLoc.x =  -1-unitWidth/2+(unitWidth)*x;
@@ -231,7 +229,7 @@ Inter Enemies::isIntersection(int matrix[25][25]){
     if(matrix[ePos.x+1][ePos.y] == 0 &&
        matrix[ePos.x-1][ePos.y] == 0 &&
        matrix[ePos.x][ePos.y-1] == 0 &&
-       matrix[ePos.x][ePos.y+1] == 0){ return A;}
+       matrix[ePos.x][ePos.y+1] == 0){ return N;}
     else if(matrix[ePos.x+1][ePos.y] == 0 &&
             matrix[ePos.x-1][ePos.y] != 0 &&
             matrix[ePos.x][ePos.y-1] != 0 &&

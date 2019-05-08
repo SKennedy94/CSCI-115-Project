@@ -21,7 +21,6 @@ void LevelLoader::load(string fileName){
         int s = stoi(line);
         M->setGridSize(s);
         M->setUnitWidth((float)2/s);
-        cout<<M->getGridSize()<<endl;
     }
     char index;
     file >> index;
@@ -50,6 +49,8 @@ void LevelLoader::load(string fileName){
                 matrix[i][j]=0;
                 E[enemyCount].initEnm(M->getGridSize(),4,"images/stormtrooper.png");
                 E[enemyCount].live = true;
+                E[enemyCount].ePos.x = i;
+                E[enemyCount].ePos.y = j;
                 E[enemyCount].placeEnemy(i,j);
                 enemyCount++;
             }
@@ -70,12 +71,9 @@ void LevelLoader::load(string fileName){
                 B[bushCount].liveWall = true;
                 bushCount++;
             }
-            cout<<index<<" ";
             file >> index;
         }
-        cout<<endl;
     }
-    cout<<"level Loaded"<<endl;
     file.close();
 }
 
